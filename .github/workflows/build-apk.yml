@@ -15,25 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract Android project
-        run: unzip -o eBanciField-GitHub-Upload-Starter.zip -d .
-
-      - name: Fix JVM targets
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path("app/build.gradle.kts")
-          s = p.read_text()
-          s = s.replace("android {", """android {
-              compileOptions {
-                  sourceCompatibility = JavaVersion.VERSION_17
-                  targetCompatibility = JavaVersion.VERSION_17
-              }
-              kotlinOptions {
-                  jvmTarget = "17"
-              }""", 1)
-          p.write_text(s)
-          PY
+      - name: Extract Android v1.0 project
+        run: unzip -o eBanciField-v1.0-Android-Source.zip -d .
 
       - uses: actions/setup-java@v4
         with:
@@ -49,6 +32,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: eBanciField-debug-apk
+          name: eBanciField-v1.0-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
